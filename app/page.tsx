@@ -21,6 +21,9 @@ import { useChat } from "ai/react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
+
 
 const formSchema = z.object({
   question: z.string().min(10).max(100),
@@ -102,16 +105,41 @@ export default function Home() {
               messages.map((message, index) => (
                 <div key={index} className={cn("relative p-2 dark:bg-slate-500 bg-gray-100 my-2  flex flex-col rounded-2xl",
                   message.role === "user" ? "items-start bg-sky-500 dark:bg-sky-600 text-slate-200 px-6" : "ml-8 px-8")}>
-                  <span className={cn("absolute",
-                    message.role === "user" ? "right-4 top-0" : "hidden"
-                  )}>{message.role}</span>
-                  <p>{message.content}</p>
+                  <Avatar
+                    className={cn("absolute",
+                      message.role === "user" ? "right-0 top-0" : "-left-4 top-0"
+                    )}
+                  >
+                    {
+                      message.role === "user" && (
+                        <>
+                          <AvatarImage
+                            className=""
+                            src="https://res.cloudinary.com/daniel-mateu-pardo/image/upload/v1707694393/hfb7zribbnbqdeuw2p4g.webp" />
+                          {/* <AvatarFallback>CN</AvatarFallback> */}
+                        </>
+                      )
+                    }
+                    {
+                      message.role === "assistant" && (
+                        <>
+                          <AvatarImage
+                            className="bg-slate-300"
+                            src="https://res.cloudinary.com/daniel-mateu-pardo/image/upload/v1725923278/1725922809016zm7qp3p4_j5vhfl.png" />
+                          {/* <AvatarFallback>AI</AvatarFallback> */}
+                        </>
+                      )
+                    }
+                  </Avatar>
+
+
+                  <p> {message.content}</p>
                 </div>
               ))
             }
           </div>
         </form>
       </section>
-    </div>
+    </div >
   );
 }
